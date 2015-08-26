@@ -8,44 +8,42 @@ var expect = chai.expect;
 
 describe('authorize(role)', function () {
   var request, response, next;
+  var role = 'test';
 
   beforeEach(function() {
+    request = httpMocks.createRequest();
     response = httpMocks.createResponse();
     next = sinon.spy();
   });
 
   describe('with correct role', function() {
-    var role = 'test';
-
     it('authorizes the request', function() {
-      request = createRequestWithUser(role);
-      var authorizeTest = authorize(role);
+      addUserToRequest(role);
 
-      authorizeTest(request, response, next);
+      callAuthorize();
 
       expect(next.called).to.be.true;
     });
   });
 
   describe('with incorrect role', function() {
-    var role = 'test';
-
-    it('does not authorize the request', function() {
-      request = httpMocks.createRequest();
-      var authorizeTest = authorize(role);
-
-      authorizeTest(request, response, next);
+    it('responds with 404', function() {
+      callAuthorize();
 
       expect(next.called).to.be.false;
       expect(response.statusCode).to.equal(404);
     });
   });
 
-  function createRequestWithUser(role) {
-    var request = httpMocks.createRequest();
+  function addUserToRequest(role) {
     request.user = {};
-    if(role)
+    if(role) {
       request.user.role = role;
-    return request;
+    }
+  }
+
+  function callAuthorize() {
+    var authorizeRole = authorize(role);
+    authorizeRole(request, response, next);
   }
 });
