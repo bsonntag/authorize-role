@@ -1,6 +1,8 @@
 # authorize-role
 A simple role-based authorization middleware for [Express][express-url].
 
+[![Build][travis-img]][travis-url]
+
 ## Installation
 
 ```
@@ -31,3 +33,5 @@ This will make all requests fail with 404 if they do not have a `user.role` equa
 Licensed under [MIT](https://github.com/bsonntag/authorize-role/blob/master/LICENSE).
 
 [express-url]: http://expressjs.com/
+[travis-img]: https://api.travis-ci.org/bsonntag/authorize-role.svg
+[travis-url]: https://travis-ci.org/bsonntag/authorize-role
